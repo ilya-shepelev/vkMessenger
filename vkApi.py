@@ -4,14 +4,7 @@ import json
 import re
 import auth
 
-class Singleton(object):
-	_instance = None
-	def __new__(class_, *args, **kwargs):
-		if not isinstance(class_._instance, class_):
-			class_._instance = object.__new__(class_)
-		return class_._instance
-
-class vkAPI(Singleton):
+class vkAPI():
 	def __init__(self, access_token = auth.access_key):
 		self.vkAPIString = "https://api.vk.com/method/%s?%s&access_token=%s&v=5.0"
 		self.access_token = access_token
@@ -19,11 +12,7 @@ class vkAPI(Singleton):
 	def createRequest(self, method, parameters):
 		return self.vkAPIString % (method, parameters, self.access_token)
 
-	def sendTestMessage(self):
-		response = self.executeRequest("messages.send", "user_id=31251468&message=tes&t")
-		return (response)
-
-	def sendMessage(self, message, user_id, title=""):
+	def sendMessage(self, message, user_id):
 		parametersStr = "user_id=%s&message=%s" % (user_id, urllib.parse.quote(message))
 		response = self.executeRequest("messages.send", parametersStr)
 		return (response)

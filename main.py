@@ -18,10 +18,12 @@ def inputLoop():
 	while True:
 		sym = sys.stdin.read(1)
 		if(ord(sym) == 3): break
-		elif(ord(sym) == 1): stdoutWrapper().write('\033M')
+		elif(ord(sym) == 13): 
+			messageThreads.vkConversation().sendMessage(typedString)
+			typedString = ''
 		elif(ord(sym) == 8 and len(typedString) > 0): 
 			typedString = typedString[:-1]
-		elif(32 <= ord(sym) <= 125):
+		elif(32 <= ord(sym) <= 125 or 1040 <= ord(sym) <= 1103):
 			typedString += sym
 		vkDisplay.stdoutWrapper().write('\r\033[5C\033[K' + typedString[-columns + 7:])
 	vkDisplay.stdoutWrapper().write('\n\r\033[2J\033[H\r')
