@@ -1,6 +1,7 @@
 import vkDisplay
 
 def formatMessages(conversation):
+	if(conversation == {}): return ['']
 	terminalSize = vkDisplay.getTerminalSize() 
 
 	names = { 
@@ -22,7 +23,7 @@ def formatMessages(conversation):
 		else: 
 			message['text'] = message['body'] + " → Attachments"
 
-		message['text'] = message['text'].replace('\n', '\n\r')
+		message['text'] = message['text'].replace('<br>', '\n').replace('\n', '\n\r')
 
 		if(message['out']):
 			messageBuffer += ('\033[31m >>> \033[0m%s: %s\n\r' % (names['me'], message['text']))

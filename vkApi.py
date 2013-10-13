@@ -35,6 +35,10 @@ class vkAPI():
 		response = self.executeRequest("messages.get", parametersStr)
 		return (response)
 
+	def getLongPollingServer(self):
+		response = self.executeRequest("messages.getLongPollServer", "")
+		return (response)
+
 	def getMessagesHistory(self, count, user_id, start_message_id=0):
 		parametersStr = "count=%s&user_id=%s&start_message_id=%s" % (count, user_id, start_message_id)
 		response = self.executeRequest("messages.getHistory", parametersStr)
@@ -55,5 +59,20 @@ class vkAPI():
 			print("Something is wrong")
 		finally:
 			return (jsonResponse)
+
+	def makeLongPoll(self):
+		jsonResponse = []
+
+		lp_server = self.getLongPollingServer()['response']
+		uri = "http://%s?act=a_check&key=%s&ts=%s&wait=10&mode=0" % (lp_server['server'], lp_server['key'], lp_server['ts'])
+
+		try:
+			response = urllib.request.urlopen(url=uri, timeout=30)
+			jsonResponse = json.loads(response.read().decode())['updates']
+		except:
+			pass
+		finally:
+			return (jsonResponse)
+
 
 		
