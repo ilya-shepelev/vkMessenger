@@ -39,3 +39,14 @@ def formatMessages(conversation):
 
 	messageBuffer = messageBuffer[longLines:]
 	return messageBuffer
+
+def unpackFlags(flag):
+	unpackedFlags = [False for x in range(10)]
+	i = 9
+	for num in [2**x for x in range(9, -1, -1)]:
+		if(flag == 0): return unpackedFlags
+		if(flag - num >= 0):
+			unpackedFlags[i] = True
+			flag -= num
+		i-=1
+	return unpackedFlags

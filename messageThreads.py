@@ -83,7 +83,7 @@ class vkLongPolling(threading.Thread):
 			if(updates != []):
 				for update in updates:
 					if(update[0] == 4):
-						updateObj = {'body': update[6], 'id': update[1], 'from': update[3], 'out': int(update[2] != 33)}
+						updateObj = {'body': update[6], 'id': update[1], 'from': update[3], 'out': vkUtils.unpackFlags(update[2])[1]}
 						if(update[1] != self.conversation['messageHistory']['items'][0]['id'] and
 							update[3] == self.conversation['names'][1]['id']):
 							self.conversation['messageHistory']['items'].insert(0, updateObj)
